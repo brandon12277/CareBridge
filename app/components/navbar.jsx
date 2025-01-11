@@ -104,7 +104,7 @@ const Navbar = () =>{
               <button  onClick={() => redirectToLink('/Login')}  className="def-but pt-1 pr-4 pb-1 pl-4 text-black ">Login</button>
           
        
-              <button onClick={() => redirectToLink('/SignUp')} className="bg-yellow-300 w-[10vh] font-[400] px-2 py-2 rounded-lg shadow">Sign Up</button>
+              <button onClick={() => redirectToLink('/SignUp')} className="bg-yellow-300 w-fit font-[400] px-4 py-2 rounded-lg shadow">Sign Up</button>
         </div>
 
         </div>
