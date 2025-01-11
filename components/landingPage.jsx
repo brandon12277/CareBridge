@@ -5,7 +5,7 @@ import ComNav from "./comNav";
 import Navbar from "./navbar";
 import Post from "./post";
 import axios from "axios"
-
+import Chatbot from "./chatbot";
 
 
 const DefaultPage = () => {
