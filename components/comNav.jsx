@@ -18,6 +18,7 @@ const ComNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("")
   const [location, setLocation] = useState("")
+
   const [type,setType] = useState("")
   
 
@@ -193,8 +194,9 @@ const ComNav = () => {
   return (
     <>
 
+
       { type ? authNavCom : UnAuthCom}
-      {console.log("communityS")}
+
 
     </>
   )

@@ -17,10 +17,16 @@ const Navbar = () => {
   const [on, setNav] = useState(null)
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState()
+
   const [type,setType] = useState()
 
   useEffect(()=>{
     setType(localStorage.getItem("type"))
+
+
+
+  
+
     const userdata = JSON.parse(localStorage.getItem("user"))
     
 
@@ -30,12 +36,21 @@ const Navbar = () => {
       setUser(null)
     }
 
+
     const auth = localStorage.getItem("auth")
     if (auth === true){
       setNav(1)
     }else{
       setNav(null)
     }
+
+    // const auth = localStorage.getItem("auth")
+    // if (auth === '1'){
+    //   setNav(1)
+    // }else{
+    //   setNav(null)
+    // }
+
   },[])
 
 
@@ -204,7 +219,10 @@ const handleLogout = () => {
 
   return (
     <>
+
       {type? authNavUser:UnAuthNav}
+
+
       {console.log(user)}
     </>
   )

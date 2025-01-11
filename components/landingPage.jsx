@@ -46,6 +46,7 @@ const DefaultPage = () => {
     useEffect(()=>{
 
 
+
     
     
 
@@ -53,6 +54,7 @@ const DefaultPage = () => {
    
         setUserType(localStorage.getItem("type"));
     
+
 
 
         findPosts();
@@ -215,9 +217,9 @@ const DefaultPage = () => {
         :
         <></>}
 
+
         </div>
-        </div>
-    )
+
 
 
 
@@ -225,8 +227,10 @@ const DefaultPage = () => {
         <>
 
             {userType == "user" ? <Navbar /> : <ComNav />}
+
             {userType == "user" ? <>{authLand}</> : <>{unAuthLand}</>}
         <ChatBot />
+
 
         </>
     )
