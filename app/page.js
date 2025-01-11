@@ -33,7 +33,7 @@ const Home = () =>{
       
       
       console.log(userdata)
-      setUser(JSON.parse(userdata))
+      // setUser(JSON.parse(userdata))
       
       }
 
