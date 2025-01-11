@@ -129,13 +129,14 @@ const Login = () =>{
         
         console.log(form_data)
         try{
-        const login = await axios.post("/auth/user/loginUser",form_data)
+        const login = await axios.post("/auth/user/LoginUser",form_data)
 
 
   if(login){
    console.log(login.data.user)
    localStorage.setItem("user",JSON.stringify(login.data.user))
    localStorage.setItem("auth",true)
+   localStorage.setItem("type","user")
    
    router.push("/")
 }

@@ -7,7 +7,7 @@ import ComNav from "./comNav";
 import Navbar from "./navbar";
 import Post from "./post";
 import axios from "axios"
-import Chatbot from "./chatbot";
+import ChatBot from "./chatbot";
 
 
 const DefaultPage = () => {
@@ -29,6 +29,8 @@ const DefaultPage = () => {
                 taggedUser: post.tag,
                 textContent: post.descp,
                 imageUrl: post.photo,
+                upvotes : post.upvotes.length,
+                _id : post._id
             }
 
 
@@ -38,18 +40,21 @@ const DefaultPage = () => {
 
 
     }
+    const [userType, setUserType] = useState("none")
+    const [searchQuery, setSearchQuery] = useState("");
    
     useEffect(()=>{
 
 
-    const [userType, setUserType] = useState("none")
-    const [searchQuery, setSearchQuery] = useState("");
+
+    
     
 
 
-    useEffect(() => {
+   
         setUserType(localStorage.getItem("type"));
-    }, []);
+    
+
 
 
         findPosts();
@@ -205,13 +210,16 @@ const DefaultPage = () => {
               taggedUser={post.taggedUser}
               textContent={post.textContent}
               imageUrl={post.imageUrl}
+              upvotesCount = {post.upvotes}
+              postId = {post._id}
             />
           ))
         :
         <></>}
 
+
         </div>
-    )
+
 
 
 
@@ -219,8 +227,10 @@ const DefaultPage = () => {
         <>
 
             {userType == "user" ? <Navbar /> : <ComNav />}
-            {authLand}
-        <Chatbot />
+
+            {userType == "user" ? <>{authLand}</> : <>{unAuthLand}</>}
+        <ChatBot />
+
 
         </>
     )

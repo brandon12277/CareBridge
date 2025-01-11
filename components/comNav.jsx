@@ -19,10 +19,31 @@ const ComNav = () => {
   const [name, setName] = useState("")
   const [location, setLocation] = useState("")
 
+  const [type,setType] = useState("")
+  
+
+ 
 
   useEffect(() => {
     setName(localStorage.getItem("name"))
     setLocation(localStorage.getItem("location"))
+    setType(localStorage.getItem("type"))
+
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 750);
+    };
+
+
+    window.addEventListener('resize', handleResize);
+    
+
+    handleResize();
+
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+
   }, [])
 
   const handleClick = () => {
@@ -39,25 +60,7 @@ const ComNav = () => {
 
   };
 
-  useEffect(() => {
-
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 750);
-    };
-
-
-    window.addEventListener('resize', handleResize);
-
-
-    handleResize();
-
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-
-
-  }, []);
+  
 
   const redirectToLink = (url) => {
     window.location.href = url;
@@ -191,8 +194,9 @@ const ComNav = () => {
   return (
     <>
 
-      {localStorage.getItem("type") ? authNavCom : UnAuthCom}
-      {console.log("communityS")}
+
+      { type ? authNavCom : UnAuthCom}
+
 
     </>
   )
