@@ -90,12 +90,12 @@ const Login = () =>{
       const login = await axios.post("/auth/community/loginCommunity",formData)
       if(login){
       console.log(login);
-      //  localStorage.setItem("user",JSON.stringify(login.data.user))
-      //  localStorage.setItem("auth",true)
+       localStorage.setItem("user",JSON.stringify(login.data.user))
+       localStorage.setItem("auth",true)
        localStorage.setItem("type","Community")
 
        notifySuccess("Congratulation!! You logged in")
-       window.location.href= "/"
+        window.location.href= "/"
    }
   }catch(err){
     SetOn(null)

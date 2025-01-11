@@ -208,6 +208,7 @@ const DefaultPage = () => {
         <>
         <Navbar/>
         {authLand}
+        <Chatbot />
         </>
     )
 
