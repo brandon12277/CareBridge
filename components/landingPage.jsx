@@ -1,6 +1,8 @@
 "use client"
 
-import { useState,useEffect } from "react";
+
+import { useEffect, useState } from "react";
+
 import ComNav from "./comNav";
 import Navbar from "./navbar";
 import Post from "./post";
@@ -39,12 +41,22 @@ const DefaultPage = () => {
    
     useEffect(()=>{
 
+
+    const [userType, setUserType] = useState("none")
+    const [searchQuery, setSearchQuery] = useState("");
+    
+
+
+    useEffect(() => {
+        setUserType(localStorage.getItem("type"));
+    }, []);
+
+
         findPosts();
          
           
     },[])
-    const [searchQuery, setSearchQuery] = useState("");
-   
+
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -79,8 +91,6 @@ const DefaultPage = () => {
 
     const unAuthLand = (
         <div className="overflow-hidden">
-
-            <ComNav />
 
             <div className="bg-gray-50 text-gray-800">
 
@@ -179,6 +189,7 @@ const DefaultPage = () => {
 
     const authLand = (
         <div className="max-w-4xl mx-auto p-8">
+
         <input
           type="text"
           placeholder="Search posts"
@@ -198,17 +209,19 @@ const DefaultPage = () => {
           ))
         :
         <></>}
+
         </div>
-      </div>
     )
 
 
 
     return (
         <>
-        <Navbar/>
-        {authLand}
+
+            {userType == "user" ? <Navbar /> : <ComNav />}
+            {authLand}
         <Chatbot />
+
         </>
     )
 
