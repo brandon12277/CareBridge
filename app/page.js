@@ -6,7 +6,7 @@ import {useState,useEffect} from "react"
 
 
 
-import DefaultPage from "./components/landingPage"
+import DefaultPage from "../components/landingPage"
 
 
 
@@ -33,7 +33,7 @@ const Home = () =>{
       
       
       console.log(userdata)
-      setUser(JSON.parse(userdata))
+      // setUser(JSON.parse(userdata))
       
       }
 
