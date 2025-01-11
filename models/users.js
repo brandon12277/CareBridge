@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose"
-import { Moo_Lah_Lah } from "next/font/google";
+
 
 const userSchema = new Schema({
     name : {
