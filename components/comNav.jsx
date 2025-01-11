@@ -16,8 +16,34 @@ const ComNav = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [on, setNav] = useState(null)
   const [isOpen, setIsOpen] = useState(false);
-  const [name, setName] = useState("comunity")
-  const [location, setLocation] = useState("Barrackpore")
+  const [name, setName] = useState("")
+  const [location, setLocation] = useState("")
+  const [type,setType] = useState("")
+  
+
+ 
+
+  useEffect(() => {
+    setName(localStorage.getItem("name"))
+    setLocation(localStorage.getItem("location"))
+    setType(localStorage.getItem("type"))
+
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 750);
+    };
+
+
+    window.addEventListener('resize', handleResize);
+    
+
+    handleResize();
+
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+
+  }, [])
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -33,31 +59,21 @@ const ComNav = () => {
 
   };
 
-  useEffect(() => {
-
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 750);
-    };
-
-
-    window.addEventListener('resize', handleResize);
-
-
-    handleResize();
-
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-
-
-  }, []);
+  
 
   const redirectToLink = (url) => {
     window.location.href = url;
   };
 
-  const UnAuthNav = (
+  const handleLogout = () => {
+    localStorage.removeItem("auth")
+    localStorage.removeItem("user")
+    localStorage.removeItem("type")
+  }
+
+
+
+  const UnAuthCom = (
     <>
       {isSmallScreen ?
         <div className="p-2 w-full flex flex-col justify-center items-center br-d nav-col nav-bck">
@@ -114,7 +130,7 @@ const ComNav = () => {
   )
 
 
-  const authNavUser = (
+  const authNavCom = (
 
     <>
       {isSmallScreen ?
@@ -162,7 +178,7 @@ const ComNav = () => {
               <img src="/images/user.png" alt="user-logo" className="w-6" />
               <div className="text-xl">{name}, <span className="font-bold">{location}</span></div>
             </div>
-            <button className="bg-green-500 w-fit font-[400] px-3 py-2 rounded-lg shadow">Sign Out</button>
+            <button onClick={handleLogout} className="bg-green-500 w-fit font-[400] px-3 py-2 rounded-lg shadow">Sign Out</button>
           </div>
 
         </div>
@@ -176,7 +192,9 @@ const ComNav = () => {
 
   return (
     <>
-      {authNavUser}
+
+      { type ? authNavCom : UnAuthCom}
+      {console.log("communityS")}
 
     </>
   )
