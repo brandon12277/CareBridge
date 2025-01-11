@@ -16,7 +16,7 @@ const DefaultPage = () => {
     ]);
 
 
-    useEffect(() => {
+
 
     const findPosts = async () => {
 
@@ -42,10 +42,11 @@ const DefaultPage = () => {
 
 
     }
-    const [userType, setUserType] = useState("none")
+    const [userType, setUserType] = useState()
     const [searchQuery, setSearchQuery] = useState("");
 
-   
+    useEffect(() => {
+
         setUserType(localStorage.getItem("type"));
         findPosts();
     }, [])

@@ -78,17 +78,10 @@ const PostForm = () => {
         "description" : post.description
       }
        
-<<<<<<< HEAD
-        if(file){
-        formImg.append('image', file);
-        check_img = await axios.post('https://6e2f-103-51-148-117.ngrok-free.app/image_filter',formImg)
-        }
-=======
         // if(file){
         // formImg.append('image', file);
         // // check_img = await axios.post('https://6e2f-103-51-148-117.ngrok-free.app/image_filter',formImg)
         // }
->>>>>>> 809d4d92a086eb726090d267a88aa94321a7d62f
         const check_name = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form_name)
         const check_descp = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form)
 
@@ -98,30 +91,17 @@ const PostForm = () => {
 
         let name = check_name.data.message
         let descp = check_descp.data.message
-<<<<<<< HEAD
-        let class_label = !check_img ? 1 : check_img.data.class
-=======
         // let class_label = !check_img ? 1 : check_img.data.class
->>>>>>> 809d4d92a086eb726090d267a88aa94321a7d62f
 
 
         console.log(name,descp)
        
-<<<<<<< HEAD
-        if(class_label == 0 ||  class_label ==2){
-          setLoader(null)
-          setBlack(1) 
-          document.getElementById("ar_img").style.display = "flex"
-          return; 
-        }
-=======
         // if(class_label == 0 ||  class_label ==2){
         //   setLoader(null)
         //   setBlack(1) 
         //   document.getElementById("ar_img").style.display = "flex"
         //   return; 
         // }
->>>>>>> 809d4d92a086eb726090d267a88aa94321a7d62f
 
         if(name.length>0){
             setError("Innapproriate Text has been detected in your Post Name please ")

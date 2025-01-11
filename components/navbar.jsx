@@ -16,7 +16,7 @@ const Navbar = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [on, setNav] = useState(null)
   const [isOpen, setIsOpen] = useState(false);
-  const [type, setType] = useState("")
+  const [type, setType] = useState()
   const [user, setUser] = useState()
   const [id, setId] = useState()
   const [location, setLocation] = useState()
@@ -29,8 +29,6 @@ const Navbar = () => {
     const data = localStorage.getItem("user")
     const userdata = JSON.parse(data)
     console.log("type 2", userdata)
-
-  const [type,setType] = useState()
 
     if (type1 == "user") {
       setUser(userdata.name)
