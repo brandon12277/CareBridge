@@ -30,6 +30,7 @@ const Navbar = () => {
     const userdata = JSON.parse(data)
     console.log("type 2", userdata)
 
+  const [type,setType] = useState()
 
     if (type1 == "user") {
       setUser(userdata.name)

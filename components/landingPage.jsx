@@ -15,6 +15,9 @@ const DefaultPage = () => {
 
     ]);
 
+
+    useEffect(() => {
+
     const findPosts = async () => {
 
         const posts = await axios.get("/auth/post/getPosts")
@@ -42,7 +45,7 @@ const DefaultPage = () => {
     const [userType, setUserType] = useState("none")
     const [searchQuery, setSearchQuery] = useState("");
 
-    useEffect(() => {
+   
         setUserType(localStorage.getItem("type"));
         findPosts();
     }, [])
