@@ -34,6 +34,7 @@ const Login = () =>{
   const[on,SetOn] = useState(null)
   const[google,SetGoog] = useState(null)
   const[error,setErr] = useState(null)
+  const[usermode,setUserMode]=useState(true);
   const router = useRouter();
   
   const [formData, setFormData] = useState({
@@ -55,7 +56,7 @@ const Login = () =>{
   const handleForm = async () =>{
     SetOn(1);
      try{
-    const login = await axios.post("/auth/routes/user/loginUser",formData)
+    const login = await axios.post("/auth/user/LoginUser",formData)
    
 
     if(login){
@@ -65,6 +66,8 @@ const Login = () =>{
         const userCredential = await signInWithEmailAndPassword(auth,login.data.user.email,formData.password);
         localStorage.setItem("user",JSON.stringify(login.data.user))
         localStorage.setItem("auth",true)
+        localStorage.setItem("type","user")
+
         notifySuccess("Congratulation!! You logged in")
         window.location.href= "/"
     }
@@ -155,12 +158,13 @@ catch(err){
          <img src="/images/logo.png" style={{width:"150px",height:"auto"}}></img> 
       </div>
       <div className="w-[60vh] flex flex-col items-center py-6 ">
-          <div className="w-full flex items-center justify-center">
-          <button className="w-full py-6 px-4">User</button>
-          <button className="w-full py-6 px-4">Communities</button>
+          <div className="w-full flex items-center justify-center gap-3">
+
+          <button className={usermode ? " bg-green-400 border-gray-500 border-2 rounded-lg w-full p-4" :"border-gray-500 border-2 rounded-lg w-full  p-4"} onClick={()=>{setUserMode(true)}}>User</button>
+          <button className={!usermode ? " bg-green-400 border-gray-500 border-2 rounded-lg w-full p-4" :"border-gray-500 border-2 rounded-lg w-full  p-4"} onClick={()=>{setUserMode(false)}}>Communities</button>
 
           </div>
-         
+        {usermode ?  
           <div className=" w-full shadow-lg rounded-lg px-8 py-10 gap-10 flex justify-center items-center flex-col bg-white">
 
                       <div className="flex justify-center items-center flex-col">
@@ -172,6 +176,82 @@ catch(err){
         
                         <div className="w-full m-5 flex flex-col justify-center items-center gap-5">
                              
+                              <div className="form w-full flex justify-center">
+                                <div className="w-[70%]">   
+                                 <label className="font-bold flex items-center gap-2 p-2"> <img style={{width:"20px",height:"auto"}} src="/images/email.png"></img> Email Address</label>
+                                 <input onChange={handleChange} type="text" name="email" placeholder="Email" className="w-full log-input border-2 border-gray-500 rounded-md"></input>
+                                </div>
+                              </div>
+
+                              <div className="form w-full flex justify-center">
+                                <div className="w-[70%]"> 
+                                 <label className="font-bold flex  gap-2 p-2"> <img style={{width:"20px",height:"auto"}} src="/images/pass.png"></img> Password</label>
+                                 <input onChange={handleChange} type="password" name="password" placeholder="Password" className="w-full border-2 border-gray-500 rounded-md"></input>
+                                </div>
+                              </div>
+
+                              {
+
+                                  !on?
+                              <button onClick={handleForm} className="bg-green-500 px-10 py-2 rounded-full shadow w-[50%]">Login</button>
+                              :
+                              <>
+                                 <ClipLoader
+                                  color={"yellow"}
+                                
+                                  size={50}
+                                
+                                />
+                                                        </>
+                                                        
+                                                          }
+                          <div className="w-full flex gap-2 items-center justify-center">
+                            <hr className="h-1  w-full "></hr>
+                            <h2 className="text-gray-500 w-full ">Or Sign Up Using</h2>
+                            <hr className="h-1  w-full"></hr>
+                          </div>
+
+
+                          {
+
+                          !google?
+                          <button onClick={loginWithGoogle} className="bg-green-300 px-10 py-2 flex gap-2 items-center  rounded-full shadow"><img className="w-4 w-4" src="images/goog.png"></img>Google</button>
+
+                          :
+                          <>
+                          <ClipLoader
+                          color={"green"}
+
+                          size={50}
+
+                          />
+                          </>
+
+                          }
+
+                        </div>
+             
+      </div>
+
+      :
+      <div className=" w-full shadow-lg rounded-lg px-8 py-10 gap-10 flex justify-center items-center flex-col bg-white">
+
+                      <div className="flex justify-center items-center flex-col">
+         
+                       <h2 className="font-bold text-2xl text-gray-600">Login</h2>
+                       <p>Dont have an account yet? <span><a style={{color:"green"}} href="/SignUp">Sign up</a></span></p>
+                       <p className="mt-6">{error}</p>
+                       </div>
+        
+                        <div className="w-full m-5 flex flex-col justify-center items-center gap-5">
+                             
+                              <div className="form">
+                                 
+                                 <label className="font-bold flex items-center gap-2 p-2"> <img style={{width:"20px",height:"auto"}} src="/images/email.png"></img> Community Name</label>
+                                 <input onChange={handleChange} type="text" name="name" placeholder="Community name" class="w-full log-input"></input>
+
+                              </div>
+
                               <div className="form">
                                  
                                  <label className="font-bold flex items-center gap-2 p-2"> <img style={{width:"20px",height:"auto"}} src="/images/email.png"></img> Email Address</label>
@@ -193,41 +273,41 @@ catch(err){
                               :
                               <>
                                  <ClipLoader
-        color={"yellow"}
-       
-        size={50}
-       
-      />
-                              </>
-                               
-                                 }
-<div className="w-full flex gap-2 items-center justify-center">
-   <hr className="h-1  w-full "></hr>
-   <h2 className="text-gray-500 w-full ">Or Sign Up Using</h2>
-   <hr className="h-1  w-full"></hr>
-</div>
+                                  color={"yellow"}
+                                
+                                  size={50}
+                                
+                                />
+                                                        </>
+                                                        
+                                                          }
+                          <div className="w-full flex gap-2 items-center justify-center">
+                            <hr className="h-1  w-full "></hr>
+                            <h2 className="text-gray-500 w-full ">Or Sign Up Using</h2>
+                            <hr className="h-1  w-full"></hr>
+                          </div>
 
 
-{
+                          {
 
-!google?
-<button onClick={loginWithGoogle} className="bg-green-300 px-10 py-2 flex gap-2 items-center  rounded-full shadow"><img className="w-4 w-4" src="images/goog.png"></img>Google</button>
+                          !google?
+                          <button onClick={loginWithGoogle} className="bg-green-300 px-10 py-2 flex gap-2 items-center  rounded-full shadow"><img className="w-4 w-4" src="images/goog.png"></img>Google</button>
 
-:
-<>
-<ClipLoader
-color={"green"}
+                          :
+                          <>
+                          <ClipLoader
+                          color={"green"}
 
-size={50}
+                          size={50}
 
-/>
-</>
+                          />
+                          </>
 
-}
+                          }
 
                         </div>
              
-      </div>
+      </div>}
           
          
             
@@ -235,6 +315,9 @@ size={50}
              
 
 
+
+
+//different part
           </div>
 
          </div>
