@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 
 
 const PostForm = () => {
+  const [error,setError] = useState("")
   const [user,setUser] = useState("")
   const router = useRouter()
   const [post, setPost] = useState({
@@ -70,41 +71,45 @@ const PostForm = () => {
        
        
         
-        
+       let check_form_name = {
+        "description" : post.name
+      }
+      let check_form = {
+        "description" : post.description
+      }
        
-        // if(file){
-        // formImg.append('image', file);
-        // // check_img = await axios.post('https://6e2f-103-51-148-117.ngrok-free.app/image_filter',formImg)
-        // }
-        // const check_name = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form_name)
-        // const check_descp = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form)
+        if(file){
+        formImg.append('image', file);
+        check_img = await axios.post('https://6e2f-103-51-148-117.ngrok-free.app/image_filter',formImg)
+        }
+        const check_name = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form_name)
+        const check_descp = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form)
 
        
 
 
 
-        // let name = check_name.data.message
-        // let descp = check_descp.data.message
-        // let class_label = !check_img ? 1 : check_img.data.class
+        let name = check_name.data.message
+        let descp = check_descp.data.message
+        let class_label = !check_img ? 1 : check_img.data.class
 
 
-        // console.log(descp)
-        // console.log(class_label)
-        // if(class_label == 0 ||  class_label ==2){
-        //   setLoader(null)
-        //   setBlack(1) 
-        //   document.getElementById("ar_img").style.display = "flex"
-        //   return; 
-        // }
+        console.log(name,descp)
+       
+        if(class_label == 0 ||  class_label ==2){
+          setLoader(null)
+          setBlack(1) 
+          document.getElementById("ar_img").style.display = "flex"
+          return; 
+        }
 
-        // if(name.length>0){
-        //     setLoader(null)
-        //     setBlack(1)  
-        //     document.getElementById("ar_name").style.display = "block" 
-        //     return;
+        if(name.length>0){
+            setError("Innapproriate Text has been detected in your Post Name please ")
+             
+            
             
              
-        // }
+        }
 
       
 
@@ -170,6 +175,11 @@ const PostForm = () => {
       />
 
       {/* Article Name Section */}
+      <div className="error flex items-center text-center text-red-500">
+
+        {error}
+
+      </div>
       <div className="mt-4">
         <label
           htmlFor="articleName"

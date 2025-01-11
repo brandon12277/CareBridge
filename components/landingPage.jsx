@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./navbar";
 import Post from "./post";
 import axios from "axios"
-import Chatbot from "./chatbot";
+import ChatBot from "./chatbot";
 
 
 const DefaultPage = () => {
@@ -19,7 +19,7 @@ const DefaultPage = () => {
 
         const posts = await axios.get("/auth/post/getPosts")
 
-        console.log(posts)
+        // console.log(posts)
 
         const show_posts = posts.data.posts.map((post) => (
 
@@ -28,6 +28,8 @@ const DefaultPage = () => {
                 taggedUser: post.tag,
                 textContent: post.descp,
                 imageUrl: post.photo,
+                upvotes: post.upvotes.length,
+                _id: post._id
             }
 
 
@@ -37,23 +39,12 @@ const DefaultPage = () => {
 
 
     }
+    const [userType, setUserType] = useState("none")
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
-
-
-        const [userType, setUserType] = useState("none")
-        const [searchQuery, setSearchQuery] = useState("");
-
-
-
-        useEffect(() => {
-            setUserType(localStorage.getItem("type"));
-        }, []);
-
-
+        setUserType(localStorage.getItem("type"));
         findPosts();
-
-
     }, [])
 
 
@@ -189,13 +180,6 @@ const DefaultPage = () => {
     const authLand = (
         <div className="max-w-4xl mx-auto p-8">
 
-            <input
-                type="text"
-                placeholder="Search posts"
-                // value={searchQuery}
-                onChange={handleSearchChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
             <div className="space-y-6">
                 {posts ? posts.map((post, index) => (
                     <Post
@@ -205,26 +189,29 @@ const DefaultPage = () => {
                         textContent={post.textContent}
                         imageUrl={post.imageUrl}
                     />
-                ))
-                    :
-                    <></>}
+                )) : (
+                    <></>
+                )
+
+                }
 
             </div>
-            </div>
-            )
+        </div>
+
+    )
 
 
+    return (
+        <>
 
-            return (
-            <>
+            <Navbar />
 
-                <Navbar />
-                {authLand}
-                <Chatbot />
+            {userType ? <>{authLand}</> : <>{unAuthLand}</>}
+            <ChatBot />
 
-            </>
-            )
+        </>
+    )
 
 }
 
-            export default DefaultPage;
+export default DefaultPage;

@@ -32,7 +32,7 @@ const Home = () =>{
       let userdata = localStorage.getItem("user")
       
       
-      console.log(userdata)
+      // console.log(userdata)
       // setUser(JSON.parse(userdata))
       
       }
