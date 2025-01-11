@@ -1,28 +1,38 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
 import Navbar from "@/components/navbar";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 
-useEffect(() => {
-
-  auth = localStorage.getItem("auth")
-
-  if(!auth){
-      router.push("/Login")
-  }
-}
-);
 
 const PostForm = () => {
+  const [user,setUser] = useState("")
+  const router = useRouter()
   const [post, setPost] = useState({
     name: "",
     description: "",
     fileData: null,
     bufferData: null,
+    tag : ""
   });
 
+  
+
+
+  useEffect(() => {
+
+    const auth = localStorage.getItem("auth")
+    const user_d = JSON.parse(localStorage.getItem("user"))
+    setUser(user_d)
+    const type = localStorage.getItem("type")
+    if(!auth){
+        router.push("/Login")
+    }
+  },[]
+  );
  
   const handleEditorChange = (e) => {
     setPost({
@@ -48,128 +58,77 @@ const PostForm = () => {
   };
 
   const handleSubmit = async () =>{
+    console.log("Hello")
     try{
 
-      let len = post.description.length
-      if(len<100)return;
-      if(post.name == '' || post.description == ''){
-        if(post.name == '')document.getElementById("name_warn").style.display = "flex";
-        return;
-      }
-       document.querySelectorAll(".article_form")[0].style.display = "none";
-       setLoader(1)
+       
     
        
-        let form_data = post
-        let text = getPlainText(post.description)
-        console.log(text)
-        form_data["file"]=file
-        form_data["name"] = user.name
-        console.log(form_data)
-        console.log(file)
+       
        const formImg = new FormData()
        
        
        
         
-        let check_form_name = {
-          "description" : post.name
-        }
-        let check_form = {
-          "description" : text
-        }
+        
        
-        let check_img = null
-        if(file){
-        formImg.append('image', file);
-        // check_img = await axios.post('https://6e2f-103-51-148-117.ngrok-free.app/image_filter',formImg)
-        }
-        const check_name = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form_name)
-        const check_descp = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form)
+        // if(file){
+        // formImg.append('image', file);
+        // // check_img = await axios.post('https://6e2f-103-51-148-117.ngrok-free.app/image_filter',formImg)
+        // }
+        // const check_name = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form_name)
+        // const check_descp = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form)
 
        
 
 
 
-        let name = check_name.data.message
-        let descp = check_descp.data.message
-        let class_label = !check_img ? 1 : check_img.data.class
+        // let name = check_name.data.message
+        // let descp = check_descp.data.message
+        // let class_label = !check_img ? 1 : check_img.data.class
 
 
-        console.log(descp)
-        console.log(class_label)
-        if(class_label == 0 ||  class_label ==2){
-          setLoader(null)
-          setBlack(1) 
-          document.getElementById("ar_img").style.display = "flex"
-          return; 
-        }
+        // console.log(descp)
+        // console.log(class_label)
+        // if(class_label == 0 ||  class_label ==2){
+        //   setLoader(null)
+        //   setBlack(1) 
+        //   document.getElementById("ar_img").style.display = "flex"
+        //   return; 
+        // }
 
-        if(name.length>0){
-            setLoader(null)
-            setBlack(1)  
-            document.getElementById("ar_name").style.display = "block" 
-            return;
+        // if(name.length>0){
+        //     setLoader(null)
+        //     setBlack(1)  
+        //     document.getElementById("ar_name").style.display = "block" 
+        //     return;
             
              
-        }
+        // }
 
-        if(descp.length>0){
-          setLoader(null)
-          setBlack(1)  
-          document.getElementById("ar_descp").style.display = "block" 
-          let descp_p = document.getElementById("descp_ml");
-          document.getElementById("descp_ml").innerHTML = "";
-          let text = getPlainText(formData.description).split('.')
-          let defined = formData.description.split('.')
-          let itr = 0;
-          text.map((elem,idx)=>{
-            let spanElem = document.createElement('span')
-            spanElem.style.backgroundColor = "#fdeb37"
-            spanElem.textContent= elem+"."
-            console.log(idx)
-            if(idx === descp[itr]){
-              // <span style={{backgroundColor:"#fdeb37"}}>{formData.name}</span>
-              console.log(defined[idx])
-              defined[idx] = "<span style='background-color:#fdeb37'>"+defined[idx]+"</span>"
-              descp_p.append(spanElem)
-              itr++;
-             
-            }
-            else{
-              spanElem.style.backgroundColor = ""
-              descp_p.append(spanElem)
-              
-            }
+      
 
-           
-            
-          })
-
-          let final_def = defined.join('.')
-          console.log(final_def)
-          handleEditorChange(final_def)
-
-
-          
-            
-          
          
-          return;
-     }
+
+
+          
+            
+     
     
      const formData = {
        "name" : post.name,
        "descp" : post.description,
-       "owner" : post
+       "photo" : post.bufferData,
+        "tag" : post.tag,
+       "owner" : user._id,
      }
 
     
-      console.log(post)
-        let article = await axios.post('/post/CreatePost',post)
+      console.log(formData)
+        let article = await axios.post('/auth/post/CreatePost',formData)
         if(article.data){
             console.log(article.data)
-            navigate("/")
+            router.push("/")
         }
     }
     catch(e){
@@ -178,6 +137,7 @@ const PostForm = () => {
        
 
   }
+
 
   return (
     <>
@@ -223,9 +183,25 @@ const PostForm = () => {
           name="name"
           className="mt-1 block w-full border-0 border-b-2 border-green-600 "
           value={post.name}
-
+          onChange={handleEditorChange}
         />
-      </div>
+
+        <label
+          htmlFor="articleName"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Tag
+        </label>
+        
+        <input
+          type="text"
+          id="tag"
+          name="tag"
+          className="mt-1 block w-full border-0 border-b-2 border-green-600 "
+          onChange={handleEditorChange}
+        />
+        
+       
 
       {/* Description Section */}
       <div className="mt-4">
@@ -233,7 +209,7 @@ const PostForm = () => {
           htmlFor="description"
           className="block text-sm font-medium text-gray-700"
         >
-          Description
+          Report Description
         </label>
         <textarea
             id="description"
@@ -247,6 +223,7 @@ const PostForm = () => {
         <button onClick={handleSubmit} className="bg-green-500 px-10 py-2 rounded-full shadow m-2">Create Post</button>
       </div>
     </div>
+  </div>
   </div>
   </>
   );

@@ -1,89 +1,56 @@
 "use client"
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import ComNav from "./comNav";
 import Navbar from "./navbar";
 import Post from "./post";
+import axios from "axios"
 import Chatbot from "./chatbot";
 
 
-
 const DefaultPage = () => {
-
-
-    const [searchQuery, setSearchQuery] = useState("");
+    
     const [posts, setPosts] = useState([
-        {
-          username: "john_doe",
-          taggedUser: "jane_doe",
-          textContent: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit esse, asperiores quibusdam facilis voluptas possimus magni velit quod laboriosam cum eaque qui consectetur numquam sed assumenda explicabo autem odit? Consequuntur odio nihil cum provident tempora at ex consequatur repellat eos. Nulla sequi ratione qui ab voluptatum. Reprehenderit ad voluptatum esse?",
-          imageUrl: "/images/landing-image.png",
-        },
-        {
-          username: "alice_smith",
-          taggedUser: "bob_jones",
-          textContent: "Check out this cool project I made! It's a web app that allows users to interact with machine learning models. So excited to share this with you all!",
-          imageUrl: "/images/landing-image.png",
-        },
-        {
-          username: "mike_williams",
-          taggedUser: "lisa_martin",
-          textContent: "Just finished reading a fascinating book on artificial intelligence. The future of AI looks really promising and full of potential.",
-          imageUrl: "/images/landing-image.png",
-        },
-        {
-          username: "sarah_brown",
-          taggedUser: "tom_johnson",
-          textContent: "Tried a new recipe today and it turned out amazing! The homemade pasta with pesto sauce was absolutely delicious. #foodie",
-          imageUrl: "/images/landing-image.png",
-        },
-        {
-          username: "james_davis",
-          taggedUser: "rachel_lee",
-          textContent: "Had a fantastic weekend getaway in the mountains! The views were breathtaking, and the hiking trails were challenging but so rewarding.",
-          imageUrl: "/images/landing-image.png",
-        },
-        {
-          username: "emily_clark",
-          taggedUser: "david_taylor",
-          textContent: "I'm starting a new fitness journey and I'm super motivated to see the results! Join me if you're interested in a healthy lifestyle change.",
-          imageUrl: "/images/landing-image.png",
-        },
-        {
-          username: "kevin_martinez",
-          taggedUser: "olivia_wilson",
-          textContent: "Exploring the city today! Took some incredible photos at the local museum. It's amazing how art can inspire and tell stories.",
-          imageUrl: "/images/landing-image.png",
-        },
-        {
-          username: "olivia_rodriguez",
-          taggedUser: "michael_lee",
-          textContent: "Just finished an online course on web development. Learned so much about JavaScript, HTML, CSS, and more! Excited to build my own projects now.",
-          imageUrl: "/images/landing-image.png",
-        },
-        {
-          username: "daniel_smith",
-          taggedUser: "anna_king",
-          textContent: "Celebrated my birthday yesterday with family and friends. It was a blast, and I'm so grateful for the love and support from everyone!",
-          imageUrl: "/images/landing-image.png",
-        },
-        {
-          username: "chris_jackson",
-          taggedUser: "emma_williams",
-          textContent: "Just got back from an amazing trip to Japan! The culture, food, and architecture were just breathtaking. Can't wait to go back!",
-          imageUrl: "/images/landing-image.png",
-        },
+        
       ]);
+    
+    const findPosts = async () =>{
+  
+         const posts = await axios.get("/auth/post/getPosts")
+
+         console.log(posts)
+        
+        const show_posts = posts.data.posts.map((post)=>(
+
+            {
+                username: post.name,
+                taggedUser: post.tag,
+                textContent: post.descp,
+                imageUrl: post.photo,
+            }
+
+
+        ))
+
+        setPosts(show_posts)
+
+
+    }
+   
+    useEffect(()=>{
+
+        findPosts();
+         
+          
+    },[])
+    const [searchQuery, setSearchQuery] = useState("");
+   
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
-    const filteredPosts = posts.filter(
-        (post) =>
-            post.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            post.taggedUser.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    
 
 
     const steps = [
@@ -220,7 +187,7 @@ const DefaultPage = () => {
           className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <div className="space-y-6">
-          {filteredPosts.map((post, index) => (
+          {posts ? posts.map((post, index) => (
             <Post
               key={index}
               username={post.username}
@@ -228,7 +195,9 @@ const DefaultPage = () => {
               textContent={post.textContent}
               imageUrl={post.imageUrl}
             />
-          ))}
+          ))
+        :
+        <></>}
         </div>
       </div>
     )

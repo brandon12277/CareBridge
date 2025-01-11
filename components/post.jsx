@@ -9,7 +9,7 @@ const Post = ({ username, taggedUser, textContent, imageUrl }) => {
     };
 
     return (
-        <div className="p-6 border border-gray-300 rounded-xl bg-white shadow-md">
+        <div className="p-6 border border-gray-300 rounded-xl bg-white shadow-lg">
             <div className="font-bold text-4xl">{username}</div>
             <div className="italic mt-4 text-gray-600"><span className="font-semibold">To:</span> {taggedUser}</div>
 
