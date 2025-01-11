@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react";
-import RichTextEditor from "@/components/RichTextEditor";
+
 import Navbar from "@/components/navbar";
 
 const PostForm = () => {
@@ -53,8 +53,7 @@ const PostForm = () => {
         let text = getPlainText(post.description)
         console.log(text)
         form_data["file"]=file
-        form_data["firebaseUid"] = userid
-        form_data["username"] = user.username
+        form_data["name"] = user.name
         console.log(form_data)
         console.log(file)
        const formImg = new FormData()
@@ -150,8 +149,8 @@ const PostForm = () => {
     
 
     
-      console.log(formData)
-        let article = await axios.post('https://speakserver.onrender.com/db/addArticles',formData)
+      console.log(post)
+        let article = await axios.post('/post/CreatePost',post)
         if(article.data){
             console.log(article.data)
             navigate("/")
