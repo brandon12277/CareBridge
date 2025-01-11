@@ -83,6 +83,27 @@ const Login = () =>{
       
   }
 
+  const handleComForm=async()=>{
+    try{
+      console.log("logging is in progress");
+      console.log(formData);
+      const login = await axios.post("/auth/community/loginCommunity",formData)
+      if(login){
+      console.log(login);
+      //  localStorage.setItem("user",JSON.stringify(login.data.user))
+      //  localStorage.setItem("auth",true)
+       localStorage.setItem("type","Community")
+
+       notifySuccess("Congratulation!! You logged in")
+       window.location.href= "/"
+   }
+  }catch(err){
+    SetOn(null)
+      console.log(err.response)
+      setErr(err.response.data.message)
+   }
+  }
+
   const loginWithGoogle = async () => {
     SetGoog(1);
     try {
@@ -108,7 +129,7 @@ const Login = () =>{
         
         console.log(form_data)
         try{
-        const login = await axios.post("/auth/routes/user/loginUser",form_data)
+        const login = await axios.post("/auth/user/loginUser",form_data)
 
 
   if(login){
@@ -121,7 +142,7 @@ const Login = () =>{
 }
 catch(err){
  console.log(err)
- axios.post('/auth/routes/user/createUser', form_data)
+ axios.post('/auth/user/createUser', form_data)
  .then((res)=>{
    console.log(res.data.user)
    localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -245,12 +266,7 @@ catch(err){
         
                         <div className="w-full m-5 flex flex-col justify-center items-center gap-5">
                              
-                              <div className="form">
-                                 
-                                 <label className="font-bold flex items-center gap-2 p-2"> <img style={{width:"20px",height:"auto"}} src="/images/email.png"></img> Community Name</label>
-                                 <input onChange={handleChange} type="text" name="name" placeholder="Community name" class="w-full log-input"></input>
-
-                              </div>
+                              
 
                               <div className="form">
                                  
@@ -269,7 +285,7 @@ catch(err){
                               {
 
                                   !on?
-                              <button onClick={handleForm} className="bg-green-500 px-10 py-2 rounded-full shadow">Login</button>
+                              <button onClick={handleComForm} className="bg-green-500 px-10 py-2 rounded-full shadow">Login</button>
                               :
                               <>
                                  <ClipLoader

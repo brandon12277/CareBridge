@@ -7,11 +7,12 @@ const Communities = new Schema({
 
     commType : String,
 
-    owner : {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Users', 
-      required: true
-      },
+    location : String,
+
+    
+    owner: String,
+    
+    password:String,
 
      moderators : [
         {
@@ -33,14 +34,14 @@ const Communities = new Schema({
         poster: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Users', 
-          required: true
+          
         },
         postImg : {
             type  : String
         },
         descp: {
           type: String,
-          required: true
+          
         },
       }]
 

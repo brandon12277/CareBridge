@@ -33,7 +33,7 @@ const SignUp = () =>{
    const[error,setErr] = useState(null)
    const[usermode,setUserMode]=useState(true);
    const router = useRouter();
-
+   const [communityType, setCommunityType] = useState('public');
 
  
 
@@ -43,6 +43,17 @@ const SignUp = () =>{
         email:'',
         confirm_password : '' 
       });
+
+      const [formComData, setFormComData] = useState({
+        comm_name: '',
+        desc:'',
+        type:communityType,
+        location:'',
+        email:'',
+        password: '',
+        confirm_password : '' 
+      });
+
       const handleChange = (e) => {
           const { name, value } = e.target;
 
@@ -54,6 +65,17 @@ const SignUp = () =>{
 
         
       };
+      const handleComChange = (e) => {
+        const { name, value } = e.target;
+
+        
+        setFormComData(prevFormComData => ({
+          ...prevFormComData,
+          [name]: value
+        }));
+
+      
+    };
 
       useEffect(() => {
          validatePassword();
@@ -85,7 +107,7 @@ const SignUp = () =>{
              
              console.log(form_data)
              try{
-             const login = await axios.post("/auth/routes/user/loginUser",form_data)
+             const login = await axios.post("/auth/user/loginUser",form_data)
    
 
        if(login){
@@ -98,7 +120,7 @@ const SignUp = () =>{
    }
      catch(err){
      
-      axios.post('/auth/routes/user/createUser', form_data)
+      axios.post('/auth/user/createUser', form_data)
       .then((res)=>{
         console.log(res.data.user)
         localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -175,16 +197,31 @@ const SignUp = () =>{
          catch(err){
             setOn(null)
             setErr(err.response)
-         }
-          
-            
-           
-           
-     
-          
+         }          
          
        };
       
+       const handleComSignup=async ()=>{
+             try{
+                console.log(formComData);
+                axios.post('/auth/community/createCommunity', formComData)
+             .then((response)=>{
+               console.log(response.data)
+               notifySuccess("Congratulation!! Your account is created")
+               router.push("/Login")
+             })
+             .catch(err=>{
+               console.log(err)
+               setOn(null)
+               setErr(err.data)
+             })
+             }
+             catch(err){
+              setOn(null)
+              setErr(err.response)
+           }  
+
+     }
 
       function validatePassword() {
          var password = formData.password;
@@ -341,45 +378,77 @@ size={50}
         <div className="form">
            
            <label className="font-bold flex items-center gap-2"> <img style={{width:"20px",height:"auto"}} src="/images/email.png"></img> Community Name</label>
-           <input onChange={handleChange} type="text" name="name" placeholder="Community Name" class="w-full log-input"></input>
-
-        </div>
-
-        <div className="form">
-           
-           <label className="font-bold flex items-center gap-2"> <img style={{width:"20px",height:"auto"}} src="/images/email.png"></img> Email Address</label>
-           <input onChange={handleChange} type="text" name="email" placeholder="Email" class="w-full log-input"></input>
-
-        </div>
-
-
-        {/* <div className="form">
-           
-           <label className="font-bold flex items-center gap-2"> <img style={{width:"20px",height:"auto"}} src="/images/email.png"></img> Name</label>
-           <input onChange={handleChange} type="text" name="name" placeholder="Email" class="w-full log-input"></input>
-
-        </div> */}
-
-        <div className="form">
-           
-           <label className="font-bold flex items-center gap-2 p-2"> <img style={{width:"20px",height:"auto"}} src="/images/pass.png"></img> Password</label>
-           <input  onChange={()=>{handleChange(event)}} type="password" name="password" placeholder="Password" class="w-full log-input"></input>
-
-        </div>
-
-        <div className="form">
-           
-           <label className="font-bold flex items-center gap-2 p-2"> <img style={{width:"20px",height:"auto"}} src="/images/pass.png"></img>Confirm Password</label>
-           <input onChange={()=>{handleChange(event)}} type="password" name="confirm_password" placeholder="Password" class="w-full log-input"></input>
+           <input onChange={handleComChange} type="text" name="comm_name" placeholder="Community Name" class="w-full log-input"></input>
 
         </div>
 
         <div className="form">
            
            <label className="font-bold flex items-center gap-2">Description</label>
-           <input onChange={handleChange} type="text" name="desc" placeholder="description" class="w-full log-input h-20"></input>
+           <input onChange={handleComChange} type="text" name="desc" placeholder="description" class="w-full log-input"></input>
 
         </div>
+        
+        
+        <div>
+        <h2>Select Community Type</h2>
+
+              <label>
+                <input
+                  type="radio"
+                  name="communityType"
+                  value="public"
+                  checked={communityType === 'public'}
+                  onChange={() => setCommunityType('public')}
+                />
+                Public
+              </label>
+
+              <label>
+                <input
+                  type="radio"
+                  name="communityType"
+                  value="private"
+                  checked={communityType === 'private'}
+                  onChange={() => setCommunityType('private')}
+                />
+                Private
+              </label>
+        </div>
+
+
+        <div className="form">
+           
+           <label className="font-bold flex items-center gap-2"> <img style={{width:"20px",height:"auto"}} src="/images/email.png"></img> Location</label>
+           <input onChange={handleComChange} type="text" name="location" placeholder="Email" class="w-full log-input"></input>
+
+        </div>
+
+        <div className="form">
+           
+           <label className="font-bold flex items-center gap-2"> <img style={{width:"20px",height:"auto"}} src="/images/email.png"></img> Email Address</label>
+           <input onChange={handleComChange} type="text" name="email" placeholder="Email" class="w-full log-input"></input>
+
+        </div>
+
+
+        
+
+        <div className="form">
+           
+           <label className="font-bold flex items-center gap-2 p-2"> <img style={{width:"20px",height:"auto"}} src="/images/pass.png"></img> Password</label>
+           <input  onChange={()=>{handleComChange(event)}} type="password" name="password" placeholder="Password" class="w-full log-input"></input>
+
+        </div>
+
+        <div className="form">
+           
+           <label className="font-bold flex items-center gap-2 p-2"> <img style={{width:"20px",height:"auto"}} src="/images/pass.png"></img>Confirm Password</label>
+           <input onChange={()=>{handleComChange(event)}} type="password" name="confirm_password" placeholder="Password" class="w-full log-input"></input>
+
+        </div>
+
+        
 
         <p className="">
 
@@ -395,7 +464,7 @@ size={50}
         {
 
 !on?
-<button onClick={handleSignup} className="bg-green-500 px-10 py-2 rounded-full shadow">Sign Up</button>
+<button onClick={handleComSignup} className="bg-green-500 px-10 py-2 rounded-full shadow">Sign Up</button>
 
 :
 <>
@@ -409,7 +478,7 @@ size={50}
 
 }
 
-<div className="w-full flex gap-2 items-center justify-center">
+{/* <div className="w-full flex gap-2 items-center justify-center">
 <hr className="h-1  w-full "></hr>
 <h2 className="text-gray-500 w-full ">Or Sign Up Using</h2>
 <hr className="h-1  w-full"></hr>
@@ -431,7 +500,7 @@ size={50}
 />
 </>
 
-}
+} */}
 
 
 
