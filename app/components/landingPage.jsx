@@ -40,14 +40,24 @@ const DefaultPage = () => {
             <div className="bg-gray-50 text-gray-800">
 
 
-                <section className="bg-green-600 text-white py-20 text-center">
-                    <h1 className="text-5xl font-bold">Connecting Communities for a Stronger, Kinder Tomorrow</h1>
-                    <p className="text-xl mt-4">CareBridge links individuals, communities, and authorities to resolve civic concerns collaboratively.</p>
-                    <div className="mt-6">
-                        <button className="bg-white text-green-900 px-6 py-3 rounded-lg font-bold mr-4">Get Started</button>
-                        <button className="bg-green-700 px-6 py-3 rounded-lg font-bold">Learn More</button>
+                <section className="bg-green-600 text-white py-20">
+                    <div className="container mx-auto flex flex-col-reverse md:flex-row items-center">
+                       {/* image */}
+                        <div className="md:w-1/2 flex justify-center px-4">
+                            <img src="/images/landing-image.png" alt="Community Collaboration" className="w-[35vw] rounded-lg" />
+                        </div>
+                        {/* text */}
+                        <div className="md:w-2/3 text-center md:text-left px-4">
+                            <h1 className="text-5xl font-bold">Connecting Communities for a Stronger, Kinder Tomorrow</h1>
+                            <p className="text-xl mt-4">CareBridge links individuals, communities, and authorities to resolve civic concerns collaboratively.</p>
+                            <div className="mt-6">
+                                <button className="bg-white text-green-900 px-6 py-3 rounded-lg font-bold mr-4">Get Started</button>
+                                <button className="bg-green-700 px-6 py-3 rounded-lg font-bold">Learn More</button>
+                            </div>
+                        </div>
                     </div>
                 </section>
+
 
 
                 <section className="py-20 px-10 text-center">
@@ -87,7 +97,7 @@ const DefaultPage = () => {
                     </div>
                 </section>
 
-                
+
                 <section className="py-20 px-10">
                     <h2 className="text-4xl font-bold text-center">How CareBridge Works</h2>
                     <div className="mt-10 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
