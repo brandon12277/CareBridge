@@ -6,7 +6,7 @@ import {useState,useEffect} from "react"
 
 
 
-import DefaultPage from "./components/landingPage"
+import DefaultPage from "../components/landingPage"
 
 
 
