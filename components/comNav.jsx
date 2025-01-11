@@ -11,12 +11,13 @@ import { Ruluko } from 'next/font/google'
 
 
 
-const Navbar = () => {
+const ComNav = () => {
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [on, setNav] = useState(null)
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState("Brandu")
+  const [name, setName] = useState("comunity")
+  const [location, setLocation] = useState("Barrackpore")
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -159,7 +160,7 @@ const Navbar = () => {
           <div className="w-full flex  items-center justify-end gap-5 mr-10">
             <div className="logo w-max flex justify-center items-center gap-3">
               <img src="/images/user.png" alt="user-logo" className="w-6" />
-              <div className="text-xl">Welcome, <span className="font-bold">{user}</span></div>
+              <div className="text-xl">{name}, <span className="font-bold">{location}</span></div>
             </div>
             <button className="bg-green-500 w-fit font-[400] px-3 py-2 rounded-lg shadow">Sign Out</button>
           </div>
@@ -183,4 +184,4 @@ const Navbar = () => {
 
 }
 
-export default Navbar
+export default ComNav
