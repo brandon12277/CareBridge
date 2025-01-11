@@ -24,7 +24,6 @@ function getCurrentDateTimeString() {
   const dateString = `${year}-${month}-${day}`;
   const timeString = `${hours}:${minutes}:${seconds}`;
 
-  // Combine date and time
   const dateTimeString = `${dateString} ${timeString}`;
 
   return dateTimeString;
@@ -36,7 +35,7 @@ async function file_url(buff){
 const storage = getStorage(firebaseApp);
 const { randomUUID } = new ShortUniqueId({ length: 10 });
 console.log(randomUUID)
-const storageRef = ref(storage, "profile/"+randomUUID()+getCurrentDateTimeString());
+const storageRef = ref(storage, "carebridge/"+randomUUID()+getCurrentDateTimeString());
 
 
 
@@ -49,18 +48,18 @@ return downloadURL
 
 export async function POST(request){
 
-    const { name,description,owner,tags,fileData,bufferData} =await request.json();
+    const { name,descp,owner,tag,photo} =await request.json();
     
-    const img = await file_url(bufferData)
+    const img = await file_url(photo)
     const data ={
         "name":name,
-        "descp" :description,
+        "descp" :descp,
         "photo" : img,
-        "tags" : tags,
+        "tag" : tag,
         "owner" : owner
 
         }
-       
+       console.log(data)
         await Post.create(data);
    
 

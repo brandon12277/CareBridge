@@ -9,6 +9,7 @@ const ChatSchema = new Schema({
         type: String,
         required  : [true]
     },
+    roomId : String,
     messages: [{
         sender: {
           type: mongoose.Schema.Types.ObjectId,

@@ -7,13 +7,10 @@ const PostSchema = new Schema({
 
     photo : String,
 
-    tags : [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Communities', 
-        }
-
-    ],
+    tag : 
+    {
+            type: String,
+    },
 
     owner : {
       type: mongoose.Schema.Types.ObjectId,
