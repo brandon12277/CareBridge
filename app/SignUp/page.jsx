@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Navbar from "../components/navbar";
+import Navbar from "../../components/navbar";
 import toast, { Toaster } from "react-hot-toast";
 import { Poppins } from 'next/font/google'
 import { Inter } from 'next/font/google'
