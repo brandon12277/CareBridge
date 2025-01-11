@@ -7,6 +7,14 @@ const PostSchema = new Schema({
 
     photo : String,
 
+    tags : [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Communities', 
+        }
+
+    ],
+
     owner : {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Users', 
