@@ -16,12 +16,40 @@ const Navbar = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [on, setNav] = useState(null)
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState("Brandu")
+  const [user, setUser] = useState()
+
+
+  useEffect(()=>{
+    const userdata = JSON.parse(localStorage.getItem("user"))
+    
+
+    if (userdata){
+      setUser(userdata.name)
+    }else{
+      setUser(null)
+    }
+
+    // const auth = localStorage.getItem("auth")
+    // if (auth === '1'){
+    //   setNav(1)
+    // }else{
+    //   setNav(null)
+    // }
+  },[])
+
 
   const handleClick = () => {
     setIsOpen(!isOpen);
     navigateBar()
   };
+
+const handleLogout = () => {
+  localStorage.removeItem("auth")
+  localStorage.removeItem("user")
+  localStorage.removeItem("type")
+  setUser(null)
+}
+
   const navigateBar = () => {
 
     if (on) setNav(null)
@@ -161,7 +189,7 @@ const Navbar = () => {
               <img src="/images/user.png" alt="user-logo" className="w-6" />
               <div className="text-xl">Welcome, <span className="font-bold">{user}</span></div>
             </div>
-            <button className="bg-green-500 w-fit font-[400] px-3 py-2 rounded-lg shadow">Sign Out</button>
+            <button onClick={handleLogout} className="bg-green-500 w-fit font-[400] px-3 py-2 rounded-lg shadow">Sign Out</button>
           </div>
 
         </div>
@@ -175,8 +203,8 @@ const Navbar = () => {
 
   return (
     <>
-      {authNavUser}
-
+      {localStorage.getItem("type")? authNavUser:UnAuthNav}
+      {console.log(user)}
     </>
   )
 
