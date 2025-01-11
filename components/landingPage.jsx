@@ -4,7 +4,7 @@ import { useState } from "react";
 import ComNav from "./comNav";
 import Navbar from "./navbar";
 import Post from "./post";
-
+import Chatbot from "./chatbot";
 
 
 
@@ -239,6 +239,7 @@ const DefaultPage = () => {
         <>
         <Navbar/>
         {authLand}
+        <Chatbot />
         </>
     )
 
