@@ -29,9 +29,9 @@ const PostPage = ({params}) => {
         if (id) {
             const fetchPostData = async () => {
                 try {
-                    const response = await fetch(`/post/ShowPost/?id=${id}`); // Replace with your actual API route
+                    const response = await fetch(`/post/ShowPost/?id=${id}`); 
                     const data = await response.json();
-                    setPost(data); // Update state with the fetched data
+                    setPost(data); 
                 } catch (error) {
                     console.error("Error fetching post data:", error);
                 }

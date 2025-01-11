@@ -5,7 +5,7 @@ import ComNav from "./comNav";
 import Navbar from "./navbar";
 import Post from "./post";
 import axios from "axios"
-import Chatbot from "./chatbot";
+
 
 
 const DefaultPage = () => {
@@ -27,6 +27,8 @@ const DefaultPage = () => {
                 taggedUser: post.tag,
                 textContent: post.descp,
                 imageUrl: post.photo,
+                upvotes : post.upvotes.length,
+                _id : post._id
             }
 
 
@@ -194,6 +196,8 @@ const DefaultPage = () => {
               taggedUser={post.taggedUser}
               textContent={post.textContent}
               imageUrl={post.imageUrl}
+              upvotesCount = {post.upvotes}
+              postId = {post._id}
             />
           ))
         :
