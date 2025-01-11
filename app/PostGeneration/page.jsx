@@ -4,6 +4,17 @@ import React, { useState } from "react";
 
 import Navbar from "@/components/navbar";
 
+
+useEffect(() => {
+
+  auth = localStorage.getItem("auth")
+
+  if(!auth){
+      router.push("/Login")
+  }
+}
+);
+
 const PostForm = () => {
   const [post, setPost] = useState({
     name: "",
@@ -147,6 +158,11 @@ const PostForm = () => {
           return;
      }
     
+     const formData = {
+       "name" : post.name,
+       "descp" : post.description,
+       "owner" : post
+     }
 
     
       console.log(post)
