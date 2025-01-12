@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# CareBridge
 
-First, run the development server:
+CareBridge is a crowdsourced platform designed to connect individuals, communities, and authorities to collaboratively address civic concerns. It fosters collaboration, transparency, and accountability, enabling positive change in localities through community-driven solutions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Key Features
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### 1. Post and Report Generation System
+- Raise issues by creating detailed posts with images and descriptions.
+- Tag relevant authorities to ensure issues are directed to the right parties.
+- Track resolutions in real-time via a progress bar.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. Community-Based System
+- Collaborate with local or municipal bodies to address area-specific issues.
+- Transparent tracking of ongoing issues and their resolution status.
+- Showcase resolved issues to highlight community success stories.
 
-## Learn More
+### 3. AI-Based Content Filtration and Recommendation
+- **Text Content Filtering**: Detect inappropriate language in posts and highlight it for user review.
+- **Image Content Filtering**: Scan and flag graphic content, adding a "user discretion" tag if needed.
+- **Post Recommendations**: Recommend related posts based on user activity.
 
-To learn more about Next.js, take a look at the following resources:
+### 4. One-to-One Chatbot
+- Facilitate seamless communication between users and community members.
+- Enable direct messaging for discussions, concerns, or collaborations.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Application Workflow
 
-## Deploy on Vercel
+1. Users create posts to raise concerns with details and images.
+2. Authorities and admins review and resolve the issues.
+3. Users track the progress in real-time.
+4. Resolved issues are showcased to highlight positive community impacts.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Technology Stack
+
+- **Frontend**: Next.js, Tailwind CSS
+- **Backend**: Node.js, Firebase, Socket.io
+- **Database**: MongoDB
+- **AI Models**: TensorFlow, Scikit-Learn
+- **Deployment**: Vercel
+
+---
+
+## Team
+
+- **Diganta Biswas** - Team Leader
+- **Ronit Das**
+- **Brandon Luke Williams**
+
+## UI Interfaces 
+
+![Landing Page](./public/uiscreenshot/landing.png)
+![User Home](./public/uiscreenshot/home.png)
+![Community Home](./public/uiscreenshot/community-home.png)
+![View Community](./public/uiscreenshot/view-community.png)
