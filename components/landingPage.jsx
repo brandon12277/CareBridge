@@ -1,57 +1,64 @@
 "use client"
 
-import { useState,useEffect } from "react";
-import ComNav from "./comNav";
+
+import { useEffect, useState } from "react";
+
 import Navbar from "./navbar";
 import Post from "./post";
 import axios from "axios"
-import Chatbot from "./chatbot";
+import ChatBot from "./chatbot";
 
 
 const DefaultPage = () => {
-    
+
     const [posts, setPosts] = useState([
-        
-      ]);
-    
-    const [messagebox,setMessageBox]=useState(false);
-    const findPosts = async () =>{
-  
-         const posts = await axios.get("/auth/post/getPosts")
 
-         console.log(posts)
-        
-        const show_posts = posts.data.posts.map((post)=>(
+    ]);
 
-            {
+
+
+
+    const findPosts = async () => {
+
+        const posts = await axios.get("/auth/post/getPosts")
+
+        console.log(posts.data.posts)
+
+        const show_posts = posts.data.posts.map((post) => {
+
+            console.log(post._id)
+
+           return {
                 username: post.name,
                 taggedUser: post.tag,
                 textContent: post.descp,
                 imageUrl: post.photo,
+                upvotes: post.upvotes.length,
+                postId: post._id
             }
 
 
-        ))
+    })
 
         setPosts(show_posts)
 
 
     }
-   
-    useEffect(()=>{
-
-        findPosts();
-         
-          
-    },[])
+    const [userType, setUserType] = useState()
     const [searchQuery, setSearchQuery] = useState("");
-   
+
+    useEffect(() => {
+
+        setUserType(localStorage.getItem("type"));
+        findPosts();
+    }, [])
+
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
-    
+
 
 
     const steps = [
@@ -80,8 +87,6 @@ const DefaultPage = () => {
 
     const unAuthLand = (
         <div className="overflow-hidden">
-
-            <ComNav />
 
             <div className="bg-gray-50 text-gray-800">
 
@@ -180,51 +185,39 @@ const DefaultPage = () => {
 
     const authLand = (
         <div className="max-w-4xl mx-auto p-8">
-        <input
-          type="text"
-          placeholder="Search posts"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <div className="space-y-6">
-          {posts ? posts.map((post, index) => (
-            <Post
-              key={index}
-              username={post.username}
-              taggedUser={post.taggedUser}
-              textContent={post.textContent}
-              imageUrl={post.imageUrl}
-            />
-          ))
-        :
-        <></>}
-        </div>
-      </div>
-    )
 
+            <div className="space-y-6">
+                {posts ? posts.map((post, index) => (
+                    <Post
+                        key={index}
+                        username={post.username}
+                        taggedUser={post.taggedUser}
+                        textContent={post.textContent}
+                        imageUrl={post.imageUrl}
+                        postId = {post.postId}
+                    />
+                )) : (
+                    <></>
+                )
+
+                }
+
+            </div>
+        </div>
+
+    )
 
 
     return (
         <>
-        <Navbar/>
-        {authLand}
-        <div className="fixed bottom-4 right-4 max-w-sm w-auto bg-white shadow-lg rounded-lg p-4">
-        {!messagebox &&<img src="/images/chat.png" className="h-12 w-12 ml-10" onClick={()=>{setMessageBox(true)}}></img>}
-        {messagebox && 
-        <div className="">
-        <p className="cursor-pointer" onClick={()=>{setMessageBox(false)}}>close</p>
-        
-        {/* <Chatinbox onClick={()=>{setInbox(false)}}/> : */}
-        <Chatbot onClick={()=>{setInbox(true)}}/>
-        
-        </div> 
-        }
-        </div>
+
+            <Navbar />
+
+            {userType ? <>{authLand}</> : <>{unAuthLand}</>}
+            <ChatBot />
+
         </>
     )
-
-
 
 }
 
