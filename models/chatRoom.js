@@ -12,22 +12,21 @@ const ChatSchema = new Schema({
     roomId : String,
     messages: [{
         sender: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Users', 
-          required: true
-        },
-        receiver: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Users', 
-          required: true
-        },
-        text: {
-          type: String,
-          required: true
-        },
-        date : {
-          type : String
-        },
+      type: String,
+      required: true,  
+    },
+    receiver: {
+      type: String,
+      required: true,  
+    },
+    text: {
+      type: String,
+      required: true,  
+    },
+    date: {
+      type: Date,  // Better to store this as a Date type
+      default: Date.now,  // Defaults to the current date and time
+    }
       }]
 
 });

@@ -14,6 +14,7 @@ const DefaultPage = () => {
         
       ]);
     
+    const [messagebox,setMessageBox]=useState(false);
     const findPosts = async () =>{
   
          const posts = await axios.get("/auth/post/getPosts")
@@ -208,7 +209,18 @@ const DefaultPage = () => {
         <>
         <Navbar/>
         {authLand}
-        <Chatbot />
+        <div className="fixed bottom-4 right-4 max-w-sm w-auto bg-white shadow-lg rounded-lg p-4">
+        {!messagebox &&<img src="/images/chat.png" className="h-12 w-12 ml-10" onClick={()=>{setMessageBox(true)}}></img>}
+        {messagebox && 
+        <div className="">
+        <p className="cursor-pointer" onClick={()=>{setMessageBox(false)}}>close</p>
+        
+        {/* <Chatinbox onClick={()=>{setInbox(false)}}/> : */}
+        <Chatbot onClick={()=>{setInbox(true)}}/>
+        
+        </div> 
+        }
+        </div>
         </>
     )
 
