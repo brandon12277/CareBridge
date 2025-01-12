@@ -24,7 +24,11 @@ function ChatBot() {
      setcertainPerson(person);
   }
   const messagesend=async()=>{
-    const currentDate = new Date();
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     // const userid=localStorage.getItem('user');
     // const user = JSON.parse(userid);
     const person1=user.name;
@@ -33,7 +37,7 @@ function ChatBot() {
         sender:person1,
         reciever:person2,
         text:messages,
-        date:currentDate,
+        date:formattedTime,
     }    ;
     const data={
         
@@ -43,12 +47,61 @@ function ChatBot() {
             message:message
         
     }
+    
     socket.emit("send_message",data);
     const roomgenerate = await axios.post("/auth/chat",{room:certainperson.roomId,p1:certainperson.person1,p2:certainperson.person2,messages:message});
-    // setMessagesReceived(prevMessagesReceived => [...prevMessagesReceived, allperson.data.Chats[0]]);
+    
 
+    const chat=document.getElementById('chat');
+    chat.innerHTML+=addChat(message.text,message.date);
+    
+    
 
   }
+  const sendChat = (msg,time)=>{
+
+       
+
+       
+        
+    // let data = {
+    //     "sender":
+    // }
+
+
+
+//    const sendText = await axios.post("/auth/routes/chat/addChat",data)
+   
+    return `
+    <div className="w-auto flex justify-start bg-green-200 items-center">
+        <div className="p-1  chat-block-send">
+
+                  <p class="flex  items-center">${msg}</p>
+                  <p class="time-text"> ${time}</p>
+
+        </div>
+
+    </div>
+    `
+}
+
+const addChat = (msg,time)=>{
+
+    
+
+ 
+  return `
+  <div className="w-auto flex justify-start bg-green-200 items-center">
+        <div className="p-1  chat-block-send">
+
+                <p className="flex items-center">${msg}</p>
+                <p className="time-text"> ${time}</p>
+
+      </div>
+
+  </div>
+  `
+}
 
   useEffect(() => {
     const fetchperson=async()=>{
@@ -74,9 +127,11 @@ function ChatBot() {
     fetchperson();
 
      socket.on("receive_message", (data) => {
+      const chat=document.getElementById('chat');
+      chat.innerHTML+=sendChat(data.messages.text,data.messages.date);
        console.log("message recieved");
        console.log(data);
-       setMessagesReceived(prevMessagesReceived => [...prevMessagesReceived, data]);
+       
         console.log(messagesReceived);
      });
     },[socket]);
@@ -98,7 +153,7 @@ function ChatBot() {
           
           {messagesReceived[0].messages!=undefined && messagesReceived[0].messages.map((element , index) => (
             
-            <div className={element.sender===user.name ?"flex justify-end  ":"flex justify-start  gap-2"} key={index}>
+            <div className={element.sender===user.name ?"flex justify-end  ":"flex justify-start  gap-2"}  key={index}>
             {/* {props.messages.socketId!==props.socketid.id && <p className="bg-[#8576FF] p-2 rounded-full text-white h-10  font-bold">{props.messages.sender[0]}</p>} */}
             <div className={element.sender===user.name ?"bg-[#8576FF] rounded-xl rounded-tr-none p-2 max-w-[75%] shadow-2xl":"bg-[#31363F] rounded-xl rounded-tl-none p-2 max-w-[75%] shadow-2xl"}>
                 <p className=" text-sm text-blue-600  ">{element.sender}</p>
@@ -108,6 +163,8 @@ function ChatBot() {
             </div>
             </div>
             ))}
+
+            <div id="chat"></div>
 
         </div>
   

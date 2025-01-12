@@ -1,17 +1,17 @@
 "use client"
 
 import React, { useState,useEffect } from "react";
-
+import toast, { Toaster } from "react-hot-toast";
 import Navbar from "@/components/navbar";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
 
-
+const notify = (msg) => toast.error(msg,{
+  duration : 5000,
+ });
 const PostForm = () => {
-
   const [error,setError] = useState("")
-
   const [user,setUser] = useState("")
   const router = useRouter()
   const [post, setPost] = useState({
@@ -23,7 +23,7 @@ const PostForm = () => {
   });
 
   
-
+ 
 
   useEffect(() => {
 
@@ -70,23 +70,20 @@ const PostForm = () => {
        
        const formImg = new FormData()
        
-       
+       let check_img;
        
         
-
        let check_form_name = {
         "description" : post.name
       }
       let check_form = {
         "description" : post.description
       }
-
        
-        // if(file){
-        // formImg.append('image', file);
-        // // check_img = await axios.post('https://6e2f-103-51-148-117.ngrok-free.app/image_filter',formImg)
-        // }
-
+        if(post.fileData){
+        formImg.append('image', post.fileData);
+        check_img = await axios.post('http://127.0.0.1:5000/image_filter',formImg)
+        }
         const check_name = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form_name)
         const check_descp = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form)
 
@@ -101,19 +98,26 @@ const PostForm = () => {
 
         console.log(name,descp)
        
-
-        // if(class_label == 0 ||  class_label ==2){
-        //   setLoader(null)
-        //   setBlack(1) 
-        //   document.getElementById("ar_img").style.display = "flex"
-        //   return; 
-        // }
-
+        if(class_label == 0 ||  class_label ==2){
+          notify("Innapproriate Graphical Image Detected ")
+          return;
+        }
 
         if(name.length>0){
-            setError("Innapproriate Text has been detected in your Post Name please ")
+            notify("Innapproriate Text has been detected in your Post Name please ")
+             return;
+            
+            
              
-    
+        }
+        if(descp.length>0){
+          notify("Innapproriate Text has been detected in your Report Description please ")
+           
+          return;
+          
+           
+      }
+
 
       
 
@@ -152,8 +156,13 @@ const PostForm = () => {
   return (
     <>
     <Navbar/>
+    <Toaster
+  position="top-center"
+  reverseOrder={false}
+  duration = {60}
+/>
    
-    <div className="min-h-screen w-full flex items-center justify-center">
+    <div className="min-h-screen pb-14 w-full flex items-center justify-center">
     <div className="w-[100vh] background-green max-w-3xl  p-6 border shadow-lg rounded">
       {/* Photo Upload Section */}
       <div
@@ -180,13 +189,11 @@ const PostForm = () => {
       />
 
       {/* Article Name Section */}
-
       <div className="error flex items-center text-center text-red-500">
 
         {error}
 
       </div>
-
       <div className="mt-4">
         <label
           htmlFor="articleName"

@@ -24,8 +24,8 @@ const ChatSchema = new Schema({
       required: true,  
     },
     date: {
-      type: Date,  // Better to store this as a Date type
-      default: Date.now,  // Defaults to the current date and time
+      type: String,  // Better to store this as a Date type
+        // Defaults to the current date and time
     }
       }]
 

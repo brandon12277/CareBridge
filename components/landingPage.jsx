@@ -15,7 +15,7 @@ const DefaultPage = () => {
 
     ]);
 
-
+    const [inbox,setInbox]=useState(false);
 
 
     const findPosts = async () => {
@@ -214,7 +214,17 @@ const DefaultPage = () => {
             <Navbar />
 
             {userType ? <>{authLand}</> : <>{unAuthLand}</>}
-            <ChatBot />
+
+            <div className="fixed bottom-4 right-4 bg-white shadow-lg rounded-lg p-4">
+
+            {!inbox &&<img src='/images/chat.png' className="h-12 w-12 cursor-pointer" onClick={()=>{setInbox(true)}}></img>}
+             {inbox && 
+             <div >
+             <p className="cursor-pointer" onClick={()=>{setInbox(false)}}>close</p>
+             <ChatBot />
+             </div>}        
+            </div>
+            
 
         </>
     )
