@@ -1,22 +1,28 @@
 import { NextResponse } from "next/server"
 import mongoose from "mongoose"
 
-
 import {ObjectId} from "mongodb"
 import Post from '@/models/Post';
 
-export async function GET(req) {
+export async function POST(req) {
     
     try {
-        const  id  = req.url.split('?')[1].split('=')[1]; 
+        const  {id,user_id}  = await req.json()
        
-
         
         const post = await Post.findOne({ _id: new ObjectId(id) });
-
-        if (!post) {
-            return NextResponse.json({ message: 'Post not found' }, { status: 404 });
+        
+        if (post.upvotes.includes(id)) {
+            return NextResponse.json({mes : "Already there"},{status:200});
         }
+       
+        const updatedPost = await Post.findOneAndUpdate(
+            { _id: id, upvotes: { $ne: user_id } }, 
+            { $push: { upvotes: user_id } }, 
+            { new: true } 
+          );
+    
+          
 
        
         return NextResponse.json(post, { status: 200 });
