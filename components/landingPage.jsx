@@ -1,13 +1,19 @@
 "use client"
 
 
+
 import { useEffect, useState } from "react";
+
+
+import { useState,useEffect } from "react";
 
 import ComNav from "./comNav";
 import Navbar from "./navbar";
 import Post from "./post";
 import axios from "axios"
+
 import ChatBot from "./chatbot";
+
 
 
 const DefaultPage = () => {
@@ -40,6 +46,7 @@ const DefaultPage = () => {
 
 
     }
+
     const [userType, setUserType] = useState("none")
     const [searchQuery, setSearchQuery] = useState("");
    
@@ -57,10 +64,15 @@ const DefaultPage = () => {
 
 
 
+    useEffect(()=>{
+
+
         findPosts();
          
           
     },[])
+
+
 
 
     const handleSearchChange = (e) => {
@@ -96,6 +108,8 @@ const DefaultPage = () => {
 
     const unAuthLand = (
         <div className="overflow-hidden">
+
+
 
             <div className="bg-gray-50 text-gray-800">
 
@@ -218,7 +232,9 @@ const DefaultPage = () => {
         <></>}
 
 
+
         </div>
+
 
 
 
@@ -226,10 +242,12 @@ const DefaultPage = () => {
     return (
         <>
 
+
             {userType == "user" ? <Navbar /> : <ComNav />}
 
             {userType == "user" ? <>{authLand}</> : <>{unAuthLand}</>}
         <ChatBot />
+
 
 
         </>

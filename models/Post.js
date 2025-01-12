@@ -7,10 +7,12 @@ const PostSchema = new Schema({
 
     photo : String,
 
+
     resolved : Boolean,
     workInProgress : Boolean,
     Contacted : Boolean,
     Viewed : Boolean,
+
 
     tag : 
     {

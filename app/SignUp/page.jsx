@@ -107,7 +107,9 @@ const SignUp = () =>{
              
              console.log(form_data)
              try{
+
              const login = await axios.post("/auth/user/LoginUser",form_data)
+
    
 
        if(login){

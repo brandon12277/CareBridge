@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import mongoose from "mongoose"
 
+
 import {ObjectId} from "mongodb"
 import Post from '@/models/Post';
 
@@ -9,6 +10,7 @@ export async function GET(req) {
     try {
         const  id  = req.url.split('?')[1].split('=')[1]; 
        
+
         
         const post = await Post.findOne({ _id: new ObjectId(id) });
 

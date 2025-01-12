@@ -90,12 +90,14 @@ const Login = () =>{
       const login = await axios.post("/auth/community/loginCommunity",formData)
       if(login){
       console.log(login);
+
        localStorage.setItem("user",JSON.stringify(login.data.user))
        localStorage.setItem("auth",true)
        localStorage.setItem("type","Community")
 
        notifySuccess("Congratulation!! You logged in")
         window.location.href= "/"
+
    }
   }catch(err){
     SetOn(null)
@@ -129,7 +131,9 @@ const Login = () =>{
         
         console.log(form_data)
         try{
+
         const login = await axios.post("/auth/user/LoginUser",form_data)
+
 
 
   if(login){

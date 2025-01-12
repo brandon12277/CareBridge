@@ -9,7 +9,9 @@ import { useRouter } from "next/navigation";
 
 
 const PostForm = () => {
+
   const [error,setError] = useState("")
+
   const [user,setUser] = useState("")
   const router = useRouter()
   const [post, setPost] = useState({
@@ -71,17 +73,20 @@ const PostForm = () => {
        
        
         
+
        let check_form_name = {
         "description" : post.name
       }
       let check_form = {
         "description" : post.description
       }
+
        
         // if(file){
         // formImg.append('image', file);
         // // check_img = await axios.post('https://6e2f-103-51-148-117.ngrok-free.app/image_filter',formImg)
         // }
+
         const check_name = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form_name)
         const check_descp = await axios.post('https://speak-flask-text-api.onrender.com/simple',check_form)
 
@@ -96,6 +101,7 @@ const PostForm = () => {
 
         console.log(name,descp)
        
+
         // if(class_label == 0 ||  class_label ==2){
         //   setLoader(null)
         //   setBlack(1) 
@@ -103,13 +109,11 @@ const PostForm = () => {
         //   return; 
         // }
 
+
         if(name.length>0){
             setError("Innapproriate Text has been detected in your Post Name please ")
              
-            
-            
-             
-        }
+    
 
       
 
@@ -120,21 +124,22 @@ const PostForm = () => {
             
      
     
-    //  const formData = {
-    //    "name" : post.name,
-    //    "descp" : post.description,
-    //    "photo" : post.bufferData,
-    //     "tag" : post.tag,
-    //    "owner" : user._id,
-    //  }
+     const formData = {
+       "name" : post.name,
+       "descp" : post.description,
+       "photo" : post.bufferData,
+        "tag" : post.tag,
+       "owner" : user._id,
+     }
 
     
-    //   console.log(formData)
-    //     let article = await axios.post('/auth/post/CreatePost',formData)
-    //     if(article.data){
-    //         console.log(article.data)
-    //         router.push("/")
-    //     }
+      console.log(formData)
+        let article = await axios.post('/auth/post/CreatePost',formData)
+        if(article.data){
+            console.log(article.data)
+            router.push("/")
+        }
+
     }
     catch(e){
         console.log(e)
@@ -175,11 +180,13 @@ const PostForm = () => {
       />
 
       {/* Article Name Section */}
+
       <div className="error flex items-center text-center text-red-500">
 
         {error}
 
       </div>
+
       <div className="mt-4">
         <label
           htmlFor="articleName"
