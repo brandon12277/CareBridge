@@ -1,85 +1,64 @@
 "use client"
 
 
-
 import { useEffect, useState } from "react";
 
-
-import { useState,useEffect } from "react";
-
-import ComNav from "./comNav";
 import Navbar from "./navbar";
 import Post from "./post";
 import axios from "axios"
-
 import ChatBot from "./chatbot";
 
 
-
 const DefaultPage = () => {
-    
+
     const [posts, setPosts] = useState([
-        
-      ]);
-    
-    const findPosts = async () =>{
-  
-         const posts = await axios.get("/auth/post/getPosts")
 
-         console.log(posts)
-        
-        const show_posts = posts.data.posts.map((post)=>(
+    ]);
 
-            {
+
+
+
+    const findPosts = async () => {
+
+        const posts = await axios.get("/auth/post/getPosts")
+
+        console.log(posts.data.posts)
+
+        const show_posts = posts.data.posts.map((post) => {
+
+            console.log(post._id)
+
+           return {
                 username: post.name,
                 taggedUser: post.tag,
                 textContent: post.descp,
                 imageUrl: post.photo,
-                upvotes : post.upvotes.length,
-                _id : post._id
+                upvotes: post.upvotes.length,
+                postId: post._id
             }
 
 
-        ))
+    })
 
         setPosts(show_posts)
 
 
     }
-
-    const [userType, setUserType] = useState("none")
+    const [userType, setUserType] = useState()
     const [searchQuery, setSearchQuery] = useState("");
-   
-    useEffect(()=>{
 
+    useEffect(() => {
 
-
-    
-    
-
-
-   
         setUserType(localStorage.getItem("type"));
-    
-
-
-
-    useEffect(()=>{
-
-
         findPosts();
-         
-          
-    },[])
-
-
+    }, [])
 
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
-    
+
 
 
     const steps = [
@@ -108,8 +87,6 @@ const DefaultPage = () => {
 
     const unAuthLand = (
         <div className="overflow-hidden">
-
-
 
             <div className="bg-gray-50 text-gray-800">
 
@@ -209,51 +186,38 @@ const DefaultPage = () => {
     const authLand = (
         <div className="max-w-4xl mx-auto p-8">
 
-        <input
-          type="text"
-          placeholder="Search posts"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <div className="space-y-6">
-          {posts ? posts.map((post, index) => (
-            <Post
-              key={index}
-              username={post.username}
-              taggedUser={post.taggedUser}
-              textContent={post.textContent}
-              imageUrl={post.imageUrl}
-              upvotesCount = {post.upvotes}
-              postId = {post._id}
-            />
-          ))
-        :
-        <></>}
+            <div className="space-y-6">
+                {posts ? posts.map((post, index) => (
+                    <Post
+                        key={index}
+                        username={post.username}
+                        taggedUser={post.taggedUser}
+                        textContent={post.textContent}
+                        imageUrl={post.imageUrl}
+                        postId = {post.postId}
+                    />
+                )) : (
+                    <></>
+                )
 
+                }
 
-
+            </div>
         </div>
 
-
-
+    )
 
 
     return (
         <>
 
+            <Navbar />
 
-            {userType == "user" ? <Navbar /> : <ComNav />}
-
-            {userType == "user" ? <>{authLand}</> : <>{unAuthLand}</>}
-        <ChatBot />
-
-
+            {userType ? <>{authLand}</> : <>{unAuthLand}</>}
+            <ChatBot />
 
         </>
     )
-
-
 
 }
 
